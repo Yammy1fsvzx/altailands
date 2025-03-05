@@ -18,6 +18,7 @@ import {
   ChevronRightIcon
 } from '@heroicons/react/24/outline'
 import { api } from '@/utils/api'
+import { getImageUrl } from '@/utils/image'
 
 type ViewMode = 'grid' | 'list'
 type SortOption = 'price-asc' | 'price-desc' | 'area-asc' | 'area-desc'
@@ -193,10 +194,10 @@ export default function CatalogPage() {
         price_per_meter: Number(plot.price_per_meter), // Изменили с price_per_sotka
         area: Number(plot.area),
         specified_area: Number(plot.specified_area),
-        imageUrl: plot.images?.[0]?.path ? `${process.env.NEXT_PUBLIC_API_URL}${plot.images[0].path}` : '/images/plot-placeholder.jpg',
+        imageUrl: plot.images?.[0]?.path ? getImageUrl(plot.images[0].path) : '/images/plot-placeholder.jpg',
         images: (plot.images || []).map((img: any) => ({
           ...img,
-          path: `${process.env.NEXT_PUBLIC_API_URL}${img.path}`
+          path: getImageUrl(img.path)
         }))
       }))
       

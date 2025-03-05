@@ -11,6 +11,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { api } from '@/utils/api'
 import { API_URL } from '@/config/api'
+import { getImageUrl } from '@/utils/image'
 
 interface ImageFile extends File {
   id: string;
@@ -272,7 +273,7 @@ export default function EditPlotPage({ params }: PageProps) {
           setCombinedImages(plotData.images.map((img: any, index: number) => ({
             id: img.id,
             type: 'existing',
-            preview: `http://localhost:8000${img.path}`,
+            preview: getImageUrl(img.path),
             filename: img.filename,
             path: img.path,
             is_main: img.is_main,

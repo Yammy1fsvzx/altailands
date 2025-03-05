@@ -48,7 +48,7 @@ export default function RequestsPage() {
 
   const fetchRequests = async () => {
     try {
-      let url = 'http://localhost:8000/admin/requests'
+      let url = `${API_URL}/admin/requests`
       const params = new URLSearchParams()
       
       if (statusFilter) params.append('status', statusFilter)

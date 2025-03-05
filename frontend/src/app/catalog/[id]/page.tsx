@@ -40,6 +40,7 @@ import { Fragment } from 'react'
 import ImageGallery from '@/components/ImageGallery'
 import { api } from '@/utils/api'
 import { API_URL } from '@/config/api'
+import { getImageUrl } from '@/utils/image'
 
 // Словарь для отображения названий локаций
 const LOCATION_NAMES: Record<string, string> = {
@@ -85,10 +86,10 @@ export default function PlotPage({ params }: PageProps) {
             terrain: typeof data.terrain === 'object' ? data.terrain : JSON.parse(data.terrain || '{}'),
             price: Number(data.price) || 0,
             price_per_meter: Number(data.price_per_meter) || 0,
-            imageUrl: data.images?.[0]?.path ? `http://localhost:8000${data.images[0].path}` : '/images/plot-placeholder.jpg',
+            imageUrl: data.images?.[0]?.path ? getImageUrl(data.images[0].path) : '/images/plot-placeholder.jpg',
             images: (data.images || []).map((img: any) => ({
               ...img,
-              path: `http://localhost:8000${img.path}`
+              path: getImageUrl(img.path)
             }))
           }
           setPlot(formattedPlot)
@@ -107,10 +108,10 @@ export default function PlotPage({ params }: PageProps) {
                 terrain: typeof p.terrain === 'object' ? p.terrain : JSON.parse(p.terrain || '{}'),
                 price: Number(p.price) || 0,
                 price_per_meter: Number(p.price_per_meter) || 0,
-                imageUrl: p.images?.[0]?.path ? `http://localhost:8000${p.images[0].path}` : '/images/plot-placeholder.jpg',
+                imageUrl: p.images?.[0]?.path ? getImageUrl(p.images[0].path) : '/images/plot-placeholder.jpg',
                 images: (p.images || []).map((img: any) => ({
                   ...img,
-                  path: `http://localhost:8000${img.path}`
+                  path: getImageUrl(img.path)
                 }))
               }))
             setSimilarPlots(formattedSimilarPlots)

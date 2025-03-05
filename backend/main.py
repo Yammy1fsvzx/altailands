@@ -24,7 +24,11 @@ app = FastAPI(title="AltaiLand API")
 # Настройка CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",  # Development
+        "https://altailands.ru",  # Production
+        "http://89.104.70.179"    # Production IP
+    ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["*"],

@@ -20,6 +20,7 @@ import {
   PhoneIcon
 } from '@heroicons/react/24/outline'
 import { API_URL } from '@/config/api'
+import { getImageUrl } from '@/utils/image'
 
 export default function Home() {
   const [selectedPlot, setSelectedPlot] = useState<LandPlot | null>(null)
@@ -44,11 +45,11 @@ export default function Home() {
             pricePerSotka: Number(plot.price_per_sotka), // Добавляем дублирующее поле
             area: Number(plot.area),
             specified_area: Number(plot.specified_area),
-            imageUrl: plot.images?.[0]?.path ? `http://localhost:8000${plot.images[0].path}` : '/images/plot-placeholder.jpg',
+            imageUrl: plot.images?.[0]?.path ? getImageUrl(plot.images[0].path) : '/images/plot-placeholder.jpg',
             coordinates: plot.coordinates ? JSON.parse(plot.coordinates) : { lat: 0, lng: 0 },
             images: (plot.images || []).map((img: any) => ({
               ...img,
-              path: `http://localhost:8000${img.path}`
+              path: getImageUrl(img.path)
             }))
           }))
           setLatestPlots(formattedPlots)

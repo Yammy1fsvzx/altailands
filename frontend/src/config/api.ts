@@ -1,11 +1,11 @@
 /**
  * API URL конфигурация
  * В production режиме все запросы идут через nginx (/api)
- * В development режиме запросы идут напрямую на бэкенд (http://localhost:8000)
+ * В development режиме запросы идут напрямую на бэкенд
  */
 const API_URL = process.env.NODE_ENV === 'production' 
-  ? '/api'
-  : 'http://localhost:8000';
+  ? '/api'  // В production используем относительный путь
+  : 'http://localhost:8000';  // В development используем прямой адрес
 
 export { API_URL };
 
