@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { api } from '@/utils/api'
 
 interface QuizQuestion {
   id: number
@@ -34,17 +33,20 @@ export default function InlineQuiz() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const data = await api.get('/quiz/questions')
-        // Сортируем вопросы по порядку и фильтруем только активные
-        const activeQuestions = data
-          .filter((q: QuizQuestion) => q.is_active)
-          .sort((a: QuizQuestion, b: QuizQuestion) => a.order - b.order)
-        
-        // Если нет активных вопросов, не показываем квиз
-        if (activeQuestions.length === 0) {
-          setShouldRender(false)
-        } else {
-          setQuestions(activeQuestions)
+        const response = await fetch('https://altailands.ru/api/quiz/questions')
+        if (response.ok) {
+          const data = await response.json()
+          // Сортируем вопросы по порядку и фильтруем только активные
+          const activeQuestions = data
+            .filter((q: QuizQuestion) => q.is_active)
+            .sort((a: QuizQuestion, b: QuizQuestion) => a.order - b.order)
+          
+          // Если нет активных вопросов, не показываем квиз
+          if (activeQuestions.length === 0) {
+            setShouldRender(false)
+          } else {
+            setQuestions(activeQuestions)
+          }
         }
       } catch (error) {
         setError('Ошибка при загрузке вопросов')
@@ -81,13 +83,9 @@ export default function InlineQuiz() {
   const handleSubmitContact = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Предотвращаем повторную отправку
     if (isSubmitting) return
-    
-    // Сброс ошибок
     setFormErrors({ phone: '', email: '' })
     
-    // Валидация
     let hasErrors = false
     
     if (!validatePhone(userContact.phone)) {
@@ -108,10 +106,10 @@ export default function InlineQuiz() {
     
     if (hasErrors) return
 
-    setIsSubmitting(true) // Устанавливаем флаг отправки
+    setIsSubmitting(true)
 
     try {
-      const response = await api.post('/quiz/request', {
+      const response = await fetch('https://altailands.ru/api/quiz/request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +134,7 @@ export default function InlineQuiz() {
       setError('Ошибка при отправке ответов')
       console.error('Error submitting quiz:', error)
     } finally {
-      setIsSubmitting(false) // Сбрасываем флаг отправки
+      setIsSubmitting(false)
     }
   }
 

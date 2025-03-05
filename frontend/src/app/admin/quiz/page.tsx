@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { toast } from 'react-hot-toast'
-import { API_URL } from '@/config/api'
 
 interface QuizQuestion {
   id: number
@@ -33,7 +32,7 @@ export default function QuizQuestionsPage() {
 
   const fetchQuestions = async () => {
     try {
-      const response = await fetch(`${API_URL}/quiz/questions`)
+      const response = await fetch(`https://altailands.ru/api/quiz/questions`)
       if (response.ok) {
         const data = await response.json()
         setQuestions(data)
@@ -98,8 +97,8 @@ export default function QuizQuestionsPage() {
     e.preventDefault()
     try {
       const url = editingQuestion 
-        ? `${API_URL}/quiz/questions/${editingQuestion.id}`
-        : `${API_URL}/quiz/questions`
+        ? `https://altailands.ru/api/quiz/questions/${editingQuestion.id}`
+        : `https://altailands.ru/api/quiz/questions`
       
       const method = editingQuestion ? 'PUT' : 'POST'
       const data = editingQuestion || newQuestion
@@ -133,7 +132,7 @@ export default function QuizQuestionsPage() {
     if (!confirm('Вы уверены, что хотите удалить этот вопрос?')) return
 
     try {
-      const response = await fetch(`${API_URL}/quiz/questions/${id}`, {
+      const response = await fetch(`https://altailands.ru/api/quiz/questions/${id}`, {
         method: 'DELETE'
       })
 

@@ -6,7 +6,6 @@ import AdminLayout from '@/components/admin/AdminLayout'
 import { PlotStatus } from '@/types/land-plot'
 import { PhotoIcon, XMarkIcon, ExclamationTriangleIcon, ArrowsUpDownIcon, StarIcon as StarIconOutline, DocumentIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
-import { API_URL } from '@/config/api'
 
 const DRAFT_KEY = 'plot_draft'
 const DRAFT_IMAGES_KEY = 'plot_draft_images'
@@ -110,7 +109,7 @@ export default function NewPlotPage() {
   useEffect(() => {
     const fetchExistingPlots = async () => {
       try {
-        const response = await fetch(`${API_URL}/plots/`)
+        const response = await fetch(`https://altailands.ru/api/plots/`)
         if (!response.ok) throw new Error('Ошибка загрузки данных')
         const plots = await response.json()
         
@@ -246,7 +245,7 @@ export default function NewPlotPage() {
       console.log('Отправляемые данные:', JSON.stringify(numericData))
 
       // Создаем участок
-      const response = await fetch(`${API_URL}/plots/`, {
+      const response = await fetch(`https://altailands.ru/api/plots/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -292,7 +291,7 @@ export default function NewPlotPage() {
             formData.append('order', '0') // Добавляем порядок для главного изображения
 
             try {
-              const uploadResponse = await fetch(`${API_URL}/plots/${newPlot.id}/images/`, {
+              const uploadResponse = await fetch(`https://altailands.ru/api/plots/${newPlot.id}/images/`, {
                 method: 'POST',
                 body: formData,
               })
@@ -351,7 +350,7 @@ export default function NewPlotPage() {
               })
 
               try {
-                const uploadResponse = await fetch(`${API_URL}/plots/${newPlot.id}/images/`, {
+                const uploadResponse = await fetch(`https://altailands.ru/api/plots/${newPlot.id}/images/`, {
                   method: 'POST',
                   body: formData,
                 })
@@ -397,7 +396,7 @@ export default function NewPlotPage() {
           console.error('Полная информация об ошибке:', err)
           
           try {
-            await fetch(`${API_URL}/plots/${newPlot.id}`, {
+            await fetch(`https://altailands.ru/api/plots/${newPlot.id}`, {
               method: 'DELETE',
             })
             console.log(`Участок ${newPlot.id} удален из-за ошибки при загрузке изображений`)
@@ -688,7 +687,7 @@ export default function NewPlotPage() {
                           formData.append('document_type', 'document');
                           
                           try {
-                            const response = await fetch(`${API_URL}/admin/upload-document`, {
+                            const response = await fetch(`https://altailands.ru/api/admin/upload-document`, {
                               method: 'POST',
                               body: formData
                             });
@@ -743,7 +742,7 @@ export default function NewPlotPage() {
                           formData.append('document_type', 'document');
                           
                           try {
-                            const response = await fetch(`${API_URL}/admin/upload-documents`, {
+                            const response = await fetch(`https://altailands.ru/api/admin/upload-documents`, {
                               method: 'POST',
                               body: formData
                             });

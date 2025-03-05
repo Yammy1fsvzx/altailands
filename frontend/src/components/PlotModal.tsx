@@ -104,7 +104,7 @@ export default function PlotModal({ plot, isOpen, onClose }: PlotModalProps) {
       const filePath = url.replace('/uploads/', '');
       
       // Используем новый эндпоинт для скачивания
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/download/${filePath}`);
+      const response = await fetch(`https://altailands.ru/api/download/${filePath}`);
       
       if (!response.ok) {
         throw new Error(`Ошибка скачивания: ${response.status} ${response.statusText}`);

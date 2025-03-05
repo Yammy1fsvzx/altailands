@@ -10,7 +10,6 @@ import { use } from 'react'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { api } from '@/utils/api'
-import { API_URL } from '@/config/api'
 
 interface ImageFile extends File {
   id: string;
@@ -82,7 +81,7 @@ const DraggableImage = ({
   drag(drop(dragDropRef))
 
   const imageSrc = image.type === 'existing' 
-    ? `http://localhost:8000${image.path}` 
+    ? `https://altailands.ru/api/${image.path}` 
     : image.preview;
 
   return (
@@ -173,7 +172,7 @@ const downloadFile = async (url: string, filename: string) => {
     const filePath = url.replace('/uploads/', '');
     
     // Используем новый эндпоинт для скачивания
-    const response = await fetch(`${API_URL}/download/${filePath}`);
+    const response = await fetch(`https://altailands.ru/api/download${filePath}`);
     
     if (!response.ok) {
       throw new Error(`Ошибка скачивания: ${response.status} ${response.statusText}`);
@@ -242,7 +241,7 @@ export default function EditPlotPage({ params }: PageProps) {
     const fetchPlotData = async () => {
       try {
         console.log(`Загрузка данных участка с ID: ${id}`);
-        const response = await fetch(`${API_URL}/plots/${id}`);
+        const response = await fetch(`https://altailands.ru/api//plots/${id}`);
         
         if (!response.ok) {
           const errorText = await response.text();
@@ -272,7 +271,7 @@ export default function EditPlotPage({ params }: PageProps) {
           setCombinedImages(plotData.images.map((img: any, index: number) => ({
             id: img.id,
             type: 'existing',
-            preview: `http://localhost:8000${img.path}`,
+            preview: `https://altailands.ru/api/${img.path}`,
             filename: img.filename,
             path: img.path,
             is_main: img.is_main,
@@ -298,7 +297,7 @@ export default function EditPlotPage({ params }: PageProps) {
   useEffect(() => {
     const fetchExistingPlots = async () => {
       try {
-        const response = await fetch(`${API_URL}/plots/`)
+        const response = await fetch(`https://altailands.ru/api/plots/`)
         if (!response.ok) throw new Error('Ошибка загрузки данных')
         const plots = await response.json()
         
@@ -421,7 +420,7 @@ export default function EditPlotPage({ params }: PageProps) {
         .map(img => img.id);
       
       // Получаем текущие изображения участка
-      const plotResponse = await fetch(`${API_URL}/plots/${id}`);
+      const plotResponse = await fetch(`https://altailands.ru/api/plots/${id}`);
       if (!plotResponse.ok) {
         throw new Error('Не удалось получить данные участка');
       }
@@ -435,7 +434,7 @@ export default function EditPlotPage({ params }: PageProps) {
       for (const img of imagesToDelete) {
         try {
           console.log(`Удаление изображения ${img.id}`);
-          const deleteResponse = await fetch(`${API_URL}/plots/${id}/images/${img.id}`, {
+          const deleteResponse = await fetch(`https://altailands.ru/api/plots/${id}/images/${img.id}`, {
             method: 'DELETE'
           });
           if (!deleteResponse.ok) {
@@ -464,7 +463,7 @@ export default function EditPlotPage({ params }: PageProps) {
           formData.append('order', img.order.toString());
           
           console.log(`Загрузка изображения ${img.filename}`);
-          const uploadResponse = await fetch(`http://localhost:8000/plots/${id}/images/`, {
+          const uploadResponse = await fetch(`https://altailands.ru/api/plots/${id}/images/`, {
             method: 'POST',
             body: formData
           });
@@ -519,7 +518,7 @@ export default function EditPlotPage({ params }: PageProps) {
           const requestBody = { images: imageOrder };
           console.log('Отправляемые данные:', JSON.stringify(requestBody));
           
-          const reorderResponse = await fetch(`http://localhost:8000/plots/${id}/images/reorder`, {
+          const reorderResponse = await fetch(`https://altailands.ru/api/plots/${id}/images/reorder`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -816,7 +815,7 @@ export default function EditPlotPage({ params }: PageProps) {
                           formData.append('document_type', 'document');
                           
                           try {
-                            const response = await fetch('http://localhost:8000/admin/upload-document', {
+                            const response = await fetch('https://altailands.ru/api/admin/upload-document', {
                               method: 'POST',
                               body: formData
                             });
@@ -871,7 +870,7 @@ export default function EditPlotPage({ params }: PageProps) {
                           formData.append('document_type', 'document');
                           
                           try {
-                            const response = await fetch('http://localhost:8000/admin/upload-documents', {
+                            const response = await fetch('https://altailands.ru/api/admin/upload-documents', {
                               method: 'POST',
                               body: formData
                             });

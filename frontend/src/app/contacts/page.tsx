@@ -15,7 +15,6 @@ import {
 import { formatPhoneNumber } from '@/utils/formatters'
 import Script from 'next/script'
 import { api } from '@/utils/api'
-import { API_URL } from '@/config/api'
 
 interface WorkHours {
   monday_friday: string
@@ -143,7 +142,7 @@ export default function ContactsPage() {
     setIsSubmitting(true)
 
     try {
-      const response = await fetch(`${API_URL}/admin/requests/`, {
+      const response = await fetch(`https://altailands.ru/api/admin/requests/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

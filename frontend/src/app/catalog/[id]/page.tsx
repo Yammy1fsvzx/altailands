@@ -39,7 +39,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import ImageGallery from '@/components/ImageGallery'
 import { api } from '@/utils/api'
-import { API_URL } from '@/config/api'
 import { getImageUrl } from '@/utils/image'
 
 // Словарь для отображения названий локаций
@@ -74,7 +73,7 @@ export default function PlotPage({ params }: PageProps) {
     const fetchPlotData = async () => {
       try {
         // Получаем данные участка
-        const response = await fetch(`${API_URL}/plots/${id}`)
+        const response = await fetch(`https://altailands.ru/api/plots/${id}`)
         if (response.ok) {
           const data = await response.json()
           // Форматируем данные
@@ -95,7 +94,7 @@ export default function PlotPage({ params }: PageProps) {
           setPlot(formattedPlot)
 
           // Получаем похожие участки
-          const similarResponse = await fetch(`${API_URL}/plots?limit=3&location=${formattedPlot.location}`)
+          const similarResponse = await fetch(`https://altailands.ru/api/plots?limit=3&location=${formattedPlot.location}`)
           if (similarResponse.ok) {
             const similarData = await similarResponse.json()
             const formattedSimilarPlots = similarData
@@ -163,7 +162,7 @@ export default function PlotPage({ params }: PageProps) {
       const filePath = url.replace('/uploads/', '');
       
       // Используем новый эндпоинт для скачивания
-      const response = await fetch(`${API_URL}/download/${filePath}`);
+      const response = await fetch(`https://altailands.ru/api/download/${filePath}`);
       
       if (!response.ok) {
         throw new Error(`Ошибка скачивания: ${response.status} ${response.statusText}`);

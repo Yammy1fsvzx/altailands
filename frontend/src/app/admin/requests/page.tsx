@@ -5,7 +5,6 @@ import AdminLayout from '@/components/admin/AdminLayout'
 import { toast } from 'react-hot-toast'
 import { formatPhoneNumber } from '@/utils/formatters'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { API_URL } from '@/config/api'
 
 interface Request {
   id: number
@@ -48,7 +47,7 @@ export default function RequestsPage() {
 
   const fetchRequests = async () => {
     try {
-      let url = `${API_URL}/admin/requests`
+      let url = `https://altailands.ru/api/admin/requests`
       const params = new URLSearchParams()
       
       if (statusFilter) params.append('status', statusFilter)
@@ -73,7 +72,7 @@ export default function RequestsPage() {
 
   const handleStatusChange = async (requestId: number, newStatus: string) => {
     try {
-      const response = await fetch(`${API_URL}/admin/requests/${requestId}`, {
+      const response = await fetch(`https://altailands.ru/api/admin/requests/${requestId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
