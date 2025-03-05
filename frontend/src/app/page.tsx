@@ -21,6 +21,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { API_URL } from '@/config/api'
 import { getImageUrl } from '@/utils/image'
+import { api } from '@/utils/api'
 
 export default function Home() {
   const [selectedPlot, setSelectedPlot] = useState<LandPlot | null>(null)
@@ -30,30 +31,27 @@ export default function Home() {
   useEffect(() => {
     const fetchLatestPlots = async () => {
       try {
-        const response = await fetch(`${API_URL}/plots?limit=3`)
-        if (response.ok) {
-          const data = await response.json()
-          // Форматируем данные перед использованием
-          const formattedPlots = data.map((plot: any) => ({
-            ...plot,
-            id: String(plot.id), // Преобразуем в строку, так как в интерфейсе id: string
-            features: Array.isArray(plot.features) ? plot.features : JSON.parse(plot.features || '[]'),
-            communications: Array.isArray(plot.communications) ? plot.communications : JSON.parse(plot.communications || '[]'),
-            terrain: typeof plot.terrain === 'object' ? plot.terrain : JSON.parse(plot.terrain || '{}'),
-            price: Number(plot.price),
-            price_per_sotka: Number(plot.price_per_sotka),
-            pricePerSotka: Number(plot.price_per_sotka), // Добавляем дублирующее поле
-            area: Number(plot.area),
-            specified_area: Number(plot.specified_area),
-            imageUrl: plot.images?.[0]?.path ? getImageUrl(plot.images[0].path) : '/images/plot-placeholder.jpg',
-            coordinates: plot.coordinates ? JSON.parse(plot.coordinates) : { lat: 0, lng: 0 },
-            images: (plot.images || []).map((img: any) => ({
-              ...img,
-              path: getImageUrl(img.path)
-            }))
+        const data = await api.get('/plots?limit=3')
+        // Форматируем данные перед использованием
+        const formattedPlots = data.map((plot: any) => ({
+          ...plot,
+          id: String(plot.id), // Преобразуем в строку, так как в интерфейсе id: string
+          features: Array.isArray(plot.features) ? plot.features : JSON.parse(plot.features || '[]'),
+          communications: Array.isArray(plot.communications) ? plot.communications : JSON.parse(plot.communications || '[]'),
+          terrain: typeof plot.terrain === 'object' ? plot.terrain : JSON.parse(plot.terrain || '{}'),
+          price: Number(plot.price),
+          price_per_sotka: Number(plot.price_per_sotka),
+          pricePerSotka: Number(plot.price_per_sotka), // Добавляем дублирующее поле
+          area: Number(plot.area),
+          specified_area: Number(plot.specified_area),
+          imageUrl: plot.images?.[0]?.path ? getImageUrl(plot.images[0].path) : '/images/plot-placeholder.jpg',
+          coordinates: plot.coordinates ? JSON.parse(plot.coordinates) : { lat: 0, lng: 0 },
+          images: (plot.images || []).map((img: any) => ({
+            ...img,
+            path: getImageUrl(img.path)
           }))
-          setLatestPlots(formattedPlots)
-        }
+        }))
+        setLatestPlots(formattedPlots)
       } catch (error) {
         console.error('Error fetching latest plots:', error)
       } finally {

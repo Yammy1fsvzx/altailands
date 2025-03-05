@@ -1,4 +1,6 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+import { API_URL } from '@/config/api';
+
+const API_BASE_URL = API_URL;  // Используем конфигурацию из config/api.ts
 
 interface FetchOptions extends RequestInit {
   isAdmin?: boolean
@@ -7,6 +9,12 @@ interface FetchOptions extends RequestInit {
 export async function fetchApi(endpoint: string, options: FetchOptions = {}) {
   const { isAdmin, ...fetchOptions } = options
   const headers = new Headers(fetchOptions.headers)
+
+  // Добавляем отладочную информацию
+  console.log('API Request:', {
+    url: `${API_BASE_URL}${endpoint}`,
+    method: fetchOptions.method || 'GET',
+  });
 
   // Устанавливаем базовые заголовки
   headers.set('Content-Type', 'application/json')

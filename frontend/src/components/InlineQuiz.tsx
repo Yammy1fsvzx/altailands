@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { API_URL } from '@/config/api'
+import { api } from '@/utils/api'
 
 interface QuizQuestion {
   id: number
@@ -34,22 +34,17 @@ export default function InlineQuiz() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch(`${API_URL}/quiz/questions`)
-        if (response.ok) {
-          const data = await response.json()
-          // Сортируем вопросы по порядку и фильтруем только активные
-          const activeQuestions = data
-            .filter((q: QuizQuestion) => q.is_active)
-            .sort((a: QuizQuestion, b: QuizQuestion) => a.order - b.order)
-          
-          // Если нет активных вопросов, не показываем квиз
-          if (activeQuestions.length === 0) {
-            setShouldRender(false)
-          } else {
-            setQuestions(activeQuestions)
-          }
+        const data = await api.get('/quiz/questions')
+        // Сортируем вопросы по порядку и фильтруем только активные
+        const activeQuestions = data
+          .filter((q: QuizQuestion) => q.is_active)
+          .sort((a: QuizQuestion, b: QuizQuestion) => a.order - b.order)
+        
+        // Если нет активных вопросов, не показываем квиз
+        if (activeQuestions.length === 0) {
+          setShouldRender(false)
         } else {
-          setError('Не удалось загрузить вопросы')
+          setQuestions(activeQuestions)
         }
       } catch (error) {
         setError('Ошибка при загрузке вопросов')
@@ -116,7 +111,7 @@ export default function InlineQuiz() {
     setIsSubmitting(true) // Устанавливаем флаг отправки
 
     try {
-      const response = await fetch(`${API_URL}/quiz/request`, {
+      const response = await api.post('/quiz/request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
