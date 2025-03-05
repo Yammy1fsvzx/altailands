@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.sqlite3
+.Python
+env/
+venv/
+.env
+
+# Node
+node_modules/
+.next/
+.nuxt/
+dist/
+.cache/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Project specific
+nginx/ssl/*
+!nginx/ssl/.gitkeep
+backend/media/*
+!backend/media/.gitkeep
+backend/db/*
+!backend/db/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+Thumbs.db 

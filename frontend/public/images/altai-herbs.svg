@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="herbs" patternUnits="userSpaceOnUse" width="100" height="100">
+      <!-- Золотой корень -->
+      <path d="M10 90 C10 70, 20 60, 10 50 M10 70 C15 65, 5 65, 10 60" stroke="#000" fill="none" stroke-width="0.5"/>
+      <!-- Маралий корень -->
+      <path d="M40 90 C40 80, 35 70, 40 60 M35 75 C40 70, 45 70, 40 65" stroke="#000" fill="none" stroke-width="0.5"/>
+      <!-- Красный корень -->
+      <path d="M70 90 C70 75, 75 65, 70 55 M65 70 C70 65, 75 65, 70 60" stroke="#000" fill="none" stroke-width="0.5"/>
+      <!-- Листья -->
+      <path d="M10 50 C15 45, 5 45, 10 40" stroke="#000" fill="none" stroke-width="0.5"/>
+      <path d="M40 60 C45 55, 35 55, 40 50" stroke="#000" fill="none" stroke-width="0.5"/>
+      <path d="M70 55 C75 50, 65 50, 70 45" stroke="#000" fill="none" stroke-width="0.5"/>
+      <!-- Цветы -->
+      <circle cx="10" cy="40" r="2" stroke="#000" fill="none" stroke-width="0.5"/>
+      <circle cx="40" cy="50" r="2" stroke="#000" fill="none" stroke-width="0.5"/>
+      <circle cx="70" cy="45" r="2" stroke="#000" fill="none" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="100" height="100" fill="url(#herbs)"/>
+</svg> 

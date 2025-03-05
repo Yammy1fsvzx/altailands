@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=/api
+    volumes:
+      - frontend_build:/app/.next
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - TELEGRAM_BOT_TOKEN=7837701283:AAFc9798DdOOJ5p5QiAhjhzMW01ZAWiFQ-k
+      - TELEGRAM_ADMIN_CHAT_ID=2064202147
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+      - sqlite_data:/app/db
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - static_volume:/var/www/static
+      - media_volume:/var/www/media
+      - frontend_build:/var/www/frontend
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  frontend_build:
+  static_volume:
+  media_volume:
+  sqlite_data: 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="mountains" patternUnits="userSpaceOnUse" width="200" height="200">
+      <!-- Дальние горы -->
+      <path d="M0 150 L40 80 L80 130 L120 60 L160 110 L200 40" stroke="#000" fill="none" stroke-width="0.5" opacity="0.3"/>
+      <!-- Средние горы -->
+      <path d="M20 160 L60 100 L100 140 L140 80 L180 120 L200 90" stroke="#000" fill="none" stroke-width="0.8" opacity="0.5"/>
+      <!-- Ближние горы -->
+      <path d="M0 170 L50 110 L100 150 L150 90 L200 130" stroke="#000" fill="none" stroke-width="1"/>
+      <!-- Кедры на склонах -->
+      <path d="M30 160 L30 150 M25 155 L30 145 L35 155" stroke="#000" fill="none" stroke-width="0.5"/>
+      <path d="M70 140 L70 130 M65 135 L70 125 L75 135" stroke="#000" fill="none" stroke-width="0.5"/>
+      <path d="M120 150 L120 140 M115 145 L120 135 L125 145" stroke="#000" fill="none" stroke-width="0.5"/>
+      <path d="M160 130 L160 120 M155 125 L160 115 L165 125" stroke="#000" fill="none" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="url(#mountains)"/>
+</svg> 

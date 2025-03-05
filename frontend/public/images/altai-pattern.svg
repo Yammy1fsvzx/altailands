@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="altai-pattern" patternUnits="userSpaceOnUse" width="100" height="100">
+      <!-- Горы -->
+      <path d="M0 80 L20 40 L40 70 L60 30 L80 60 L100 20" stroke="#000" fill="none" stroke-width="1"/>
+      <!-- Кедры -->
+      <path d="M15 90 L15 70 M10 80 L15 70 L20 80" stroke="#000" fill="none" stroke-width="1"/>
+      <path d="M85 90 L85 70 M80 80 L85 70 L90 80" stroke="#000" fill="none" stroke-width="1"/>
+      <!-- Солнце -->
+      <circle cx="50" cy="20" r="8" stroke="#000" fill="none" stroke-width="1"/>
+      <line x1="50" y1="5" x2="50" y2="12" stroke="#000" stroke-width="1"/>
+      <line x1="50" y1="28" x2="50" y2="35" stroke="#000" stroke-width="1"/>
+      <line x1="35" y1="20" x2="42" y2="20" stroke="#000" stroke-width="1"/>
+      <line x1="58" y1="20" x2="65" y2="20" stroke="#000" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="100" height="100" fill="url(#altai-pattern)"/>
+</svg> 

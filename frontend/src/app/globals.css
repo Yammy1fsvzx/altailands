@@ -1,0 +1,469 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Основные цвета */
+:root {
+  --primary: #2B7A4B;
+  --primary-light: #3B9E64;
+  --primary-dark: #1C5132;
+  --primary-contrast: #FFFFFF;
+  
+  --secondary: #1A4D45;
+  --secondary-light: #266B61;
+  --secondary-dark: #0E2F2A;
+  
+  --accent: #F3B95F;
+  --accent-light: #F7CA87;
+  --accent-dark: #D99B3C;
+  
+  --success: #4CAF50;
+  --warning: #FFC107;
+  --error: #DC3545;
+  
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --gray-900: #111827;
+  --font-plus-jakarta: var(--font-plus-jakarta);
+  --font-inter: var(--font-inter);
+  --swiper-navigation-size: 0;
+  --swiper-theme-color: transparent;
+  --color-primary: #2B7A4B;
+  --color-primary-light: #2a7c4c;
+  --color-primary-dark: #1C5132;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-plus-jakarta);
+  }
+
+  body {
+    font-family: var(--font-inter);
+    @apply text-gray-900 bg-gray-50;
+  }
+}
+
+@layer components {
+  /* Кнопки */
+  .btn-primary {
+    @apply inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors;
+  }
+
+  /* Стили для полей ввода */
+  .form-input {
+    @apply appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary;
+  }
+
+  /* Стили для текстовых областей */
+  textarea.form-input {
+    @apply resize-y min-h-[120px];
+  }
+
+  /* Стили для селектов */
+  select.form-input {
+    @apply appearance-none bg-no-repeat bg-[right_1rem_center] pr-10;
+    background-size: 1.5em 1.5em;
+  }
+
+  /* Стили для чекбоксов */
+  input[type="checkbox"] {
+    @apply w-4 h-4 text-primary bg-white border-gray-300 rounded
+           focus:ring-2 focus:ring-primary
+           cursor-pointer;
+  }
+
+  /* Стили для радио кнопок */
+  input[type="radio"] {
+    @apply w-4 h-4 text-primary bg-white border-gray-300
+           focus:ring-2 focus:ring-primary
+           cursor-pointer;
+  }
+
+  /* Стили для меток полей */
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+  }
+
+  /* Стили для группы полей */
+  .form-group {
+    @apply space-y-2;
+  }
+
+  /* Стили для сообщений об ошибках */
+  .form-error {
+    @apply text-sm text-error mt-1;
+  }
+
+  /* Стили для статусов */
+  .status-badge {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-available {
+    @apply bg-primary/50 text-primary;
+  }
+
+  .status-reserved {
+    @apply bg-accent/50 text-accent-dark;
+  }
+
+  .status-sold {
+    @apply bg-secondary/50 text-secondary;
+  }
+
+  /* Стили для карточек */
+  .feature-card {
+    @apply bg-white p-4 md:p-6 rounded-xl shadow-sm hover:shadow-lg 
+           transition-all duration-300 transform hover:-translate-y-1
+           border border-primary/5 hover:border-primary/10;
+  }
+
+  /* Стили для заголовков секций */
+  .section-title {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 md:mb-12;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Декоративная линия */
+  .decorative-line {
+    @apply h-1 w-16 md:w-20 rounded-full mx-auto my-4 md:my-6;
+    background: linear-gradient(to right, var(--primary), var(--primary-light));
+  }
+
+  /* Стили для переключателей */
+  .toggle-checkbox {
+    @apply sr-only;
+  }
+
+  .toggle-label {
+    @apply relative inline-block w-10 md:w-11 h-5 md:h-6 bg-gray-200 rounded-full cursor-pointer transition-colors duration-200 ease-in-out;
+  }
+
+  .toggle-label:after {
+    content: '';
+    @apply absolute left-1 top-1 w-3 h-3 md:w-4 md:h-4 bg-white rounded-full transition-transform duration-200 ease-in-out;
+  }
+
+  .toggle-checkbox:checked + .toggle-label {
+    @apply bg-green-500;
+  }
+
+  .toggle-checkbox:checked + .toggle-label:after {
+    @apply transform translate-x-5;
+  }
+
+  .toggle-checkbox:focus + .toggle-label {
+    @apply ring-2 ring-offset-2 ring-green-500;
+  }
+
+  .toggle-label:hover {
+    @apply bg-gray-300;
+  }
+
+  .toggle-checkbox:checked + .toggle-label:hover {
+    @apply bg-green-600;
+  }
+}
+
+/* Градиентный фон для hero-секции */
+.hero-background {
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  position: relative;
+}
+
+.hero-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Анимации для элементов при скролле */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Стилизация скроллбара */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+  @apply rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--primary-light), var(--primary));
+}
+
+/* Анимация для изображений */
+.image-zoom {
+  @apply overflow-hidden rounded-xl;
+}
+
+.image-zoom img {
+  @apply transition-transform duration-700 ease-in-out;
+}
+
+.image-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Стили для модальных окон */
+.modal-content {
+  @apply bg-white rounded-2xl shadow-2xl overflow-hidden;
+  backdrop-filter: blur(8px);
+}
+
+/* Стили для навигации */
+.nav-link {
+  @apply relative text-gray-600 hover:text-gray-900 transition-colors duration-200;
+}
+
+.nav-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300;
+  background: linear-gradient(to right, var(--primary), var(--primary-light));
+}
+
+.nav-link:hover::after {
+  @apply w-full;
+}
+
+/* Временное решение для отсутствующего hero-изображения */
+.hero-fallback {
+  background-size: cover;
+}
+
+/* Стили для Swiper */
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 44px !important;
+  height: 44px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 50% !important;
+  z-index: 10 !important;
+  transition: background 0.3s ease;
+  pointer-events: auto !important;
+}
+
+/* Стили для стрелок */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 20px !important;
+  color: var(--primary) !important;
+  font-weight: bold !important;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background: white !important;
+}
+
+/* Позиционирование стрелок */
+.swiper-button-prev {
+  left: 16px !important;
+}
+
+.swiper-button-next {
+  right: 16px !important;
+}
+
+/* Стили для пагинации */
+.swiper-pagination {
+  position: absolute !important;
+  bottom: 1rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: auto !important;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  color: white;
+  z-index: 10 !important;
+}
+
+/* Убираем боковую полоску */
+.swiper-scrollbar {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+}
+
+/* Анимации */
+@keyframes loading {
+  0% {
+    width: 0;
+    transform: translateX(0);
+  }
+  50% {
+    width: 100%;
+    transform: translateX(0);
+  }
+  100% {
+    width: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Если нужно убрать отступ на каких-то конкретных страницах */
+.no-header-padding {
+  padding-top: 0;
+}
+
+/* Стили для sticky-элементов с учетом высоты шапки */
+.sticky {
+  top: calc(5rem + 1rem) !important; /* 5rem (высота шапки) + отступ 1rem */
+}
+
+/* Или более специфичный стиль для фильтров */
+.filters-sticky {
+  position: sticky;
+  top: calc(5rem + 1rem);
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 640px) {
+  .hero-background {
+    min-height: 80vh;
+  }
+  
+  .btn-primary, .btn-secondary {
+    @apply text-sm py-2 px-4;
+  }
+  
+  .form-input {
+    @apply text-sm py-2;
+  }
+  
+  .section-title {
+    @apply text-xl mb-4;
+  }
+}
+
+@media (max-width: 768px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    @apply hidden;
+  }
+  
+  .feature-card {
+    @apply p-4;
+  }
+}
+
+/* Улучшения для мобильной навигации */
+@media (max-width: 1024px) {
+  .mobile-menu-open {
+    @apply overflow-hidden;
+  }
+  
+  .mobile-menu {
+    @apply fixed inset-0 z-50 bg-white transform transition-transform duration-300 ease-in-out;
+  }
+  
+  .mobile-menu.open {
+    @apply translate-x-0;
+  }
+  
+  .mobile-menu.closed {
+    @apply translate-x-full;
+  }
+}
+
+.font-play {
+  font-family: 'Play', system-ui, sans-serif !important;
+  font-weight: 400 !important;
+}
+
+/* 3D и перспектива */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+/* Дополнительные стили анимаций при скролле */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 3s ease-in-out infinite;
+}
