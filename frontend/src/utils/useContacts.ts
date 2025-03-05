@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { api } from './api'
 
 interface WorkHours {
   monday_friday: string
@@ -62,7 +61,8 @@ export function useContacts() {
         }
         
         // Если кэша нет или он устарел, делаем запрос
-        const data = await api.get('/contacts')
+        const response = await fetch('https://altailands.ru/api/contacts')
+        const data = await response.json()
         setContactInfo(data)
         
         // Сохраняем в кэш
@@ -88,7 +88,8 @@ export function useContacts() {
     // Функция для фонового обновления кэша
     const refreshCacheInBackground = async () => {
       try {
-        const data = await api.get('/contacts')
+        const response = await fetch('https://altailands.ru/api/contacts')
+        const data = await response.json()
         localStorage.setItem('contactInfoCache', JSON.stringify({
           data,
           timestamp: Date.now()

@@ -63,7 +63,8 @@ export default function PlotModal({ plot, isOpen, onClose }: PlotModalProps) {
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {
-        const data = await api.get('/contacts')
+        const response = await fetch('https://altailands.ru/api/contacts')
+        const data = await response.json()
         setContactInfo(data)
       } catch (error) {
         console.error('Error fetching contact info:', error)
@@ -72,7 +73,8 @@ export default function PlotModal({ plot, isOpen, onClose }: PlotModalProps) {
 
     const fetchContacts = async () => {
       try {
-        const data = await api.get('/contacts')
+        const response = await fetch('https://altailands.ru/api/contacts')
+        const data = await response.json()
         setContacts(data)
       } catch (error) {
         console.error('Ошибка при загрузке контактов:', error)

@@ -120,7 +120,8 @@ export default function ContactsPage() {
 
   const fetchContactInfo = async () => {
     try {
-      const data = await api.get('/contacts')
+      const response = await fetch('https://altailands.ru/api/contacts')
+      const data = await response.json()
       setContactInfo(data || initialContactInfo)
     } catch (error) {
       console.error('Error fetching contact info:', error)

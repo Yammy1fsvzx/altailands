@@ -3,7 +3,6 @@
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid'
-import { api } from '@/utils/api'
 
 const SESSION_ID_KEY = 'session_id'
 
@@ -28,7 +27,13 @@ export default function VisitTracker() {
       if (!sessionId) return // Защита от null
 
       try {
-        await api.post('/admin/track-visit', { session_id: sessionId })
+        await fetch('https://altailands.ru/api/admin/track-visit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ session_id: sessionId }),
+        })
       } catch (error) {
         console.error('Ошибка при отслеживании посещения:', error)
       }

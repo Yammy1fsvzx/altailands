@@ -550,7 +550,25 @@ export default function EditPlotPage({ params }: PageProps) {
 
       // Сначала загружаем все файлы документов
       const uploadedFiles = await Promise.all(
-        pendingFiles.map(file => api.uploadFile(file, 'document'))
+        pendingFiles.map(async (file) => {
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('type', 'document');
+
+          const response = await fetch('https://altailands.ru/api/admin/upload', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('session')}`,
+            },
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error(`Ошибка загрузки файла ${file.name}: ${response.status} ${response.statusText}`);
+          }
+
+          return response.json();
+        })
       );
 
       // Добавляем загруженные файлы к существующим вложениям
@@ -575,8 +593,22 @@ export default function EditPlotPage({ params }: PageProps) {
 
       console.log('Обновление данных участка:', updatedData);
       try {
-        const updateResponse = await api.patch(`/admin/plots/${id}`, updatedData, { isAdmin: true });
-        console.log('Участок успешно обновлен:', updateResponse);
+        const token = localStorage.getItem('session');
+        const updateResponse = await fetch(`https://altailands.ru/api/admin/plots/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(updatedData)
+        });
+
+        if (!updateResponse.ok) {
+          throw new Error(`Ошибка при обновлении: ${updateResponse.status} ${updateResponse.statusText}`);
+        }
+
+        const responseData = await updateResponse.json();
+        console.log('Участок успешно обновлен:', responseData);
         router.push('/admin/plots');
       } catch (err) {
         console.error('Ошибка при обновлении участка:', err);

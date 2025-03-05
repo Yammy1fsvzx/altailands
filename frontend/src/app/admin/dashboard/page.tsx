@@ -39,13 +39,23 @@ export default function AdminDashboardPage() {
   const fetchStats = async () => {
     try {
       setError(null)
-      const data = await api.get('/admin/stats', { isAdmin: true })
-      setStats(data)
+      const response = await fetch('https://altailands.ru/api/admin/stats', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Token': localStorage.getItem('adminToken') || ''
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setStats(data);
     } catch (error) {
-      console.error('Error fetching stats:', error)
-      setError('Ошибка при загрузке статистики')
+      console.error('Error fetching stats:', error);
+      setError('Ошибка при загрузке статистики');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 

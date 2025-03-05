@@ -68,14 +68,18 @@ export default function ContactsPage() {
 
   const fetchContactInfo = async () => {
     try {
-      const data = await api.get('/contacts')
-      setContactInfo(data || initialContactInfo)
+      const response = await fetch('https://altailands.ru/api/contacts');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setContactInfo(data || initialContactInfo);
     } catch (error) {
-      console.error('Error fetching contact info:', error)
-      toast.error('Ошибка при загрузке контактной информации')
-      setContactInfo(initialContactInfo)
+      console.error('Error fetching contact info:', error);
+      toast.error('Ошибка при загрузке контактной информации');
+      setContactInfo(initialContactInfo);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -85,7 +89,20 @@ export default function ContactsPage() {
 
     setSaving(true)
     try {
-      await api.put('/contacts', contactInfo, { isAdmin: true })
+      const token = localStorage.getItem('session');
+      const response = await fetch('https://altailands.ru/api/admin/contacts', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(contactInfo)
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
       toast.success('Контактная информация успешно обновлена')
       await fetchContactInfo() // Обновляем данные после сохранения
     } catch (error) {

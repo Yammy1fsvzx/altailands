@@ -62,7 +62,12 @@ export default function AdminPage() {
         params.append('status', selectedStatus)
       }
 
-      const data = await api.get(`/admin/plots?${params}`, { isAdmin: true })
+      const response = await fetch(`https://altailands.ru/api/admin/plots?${params}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token')}`,
+        },
+      })
+      const data = await response.json()
       setPlots(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Неизвестная ошибка')
@@ -81,7 +86,12 @@ export default function AdminPage() {
         params.append('status', selectedStatus)
       }
 
-      const data = await api.get(`/admin/plots/count?${params}`, { isAdmin: true })
+      const response = await fetch(`https://altailands.ru/api/admin/plots/count?${params}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token')}`,
+        },
+      })
+      const data = await response.json()
       setTotalPlots(data.total)
     } catch (err) {
       console.error('Ошибка при получении количества участков:', err)
@@ -92,7 +102,15 @@ export default function AdminPage() {
     if (!confirm('Вы уверены, что хотите удалить этот участок?')) return
     
     try {
-      await api.delete(`/admin/plots/${id}`, { isAdmin: true })
+      const response = await fetch(`https://altailands.ru/api/admin/plots/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token')}`,
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Failed to delete plot')
+      }
       await fetchPlots()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка при удалении')
@@ -132,10 +150,18 @@ export default function AdminPage() {
 
   const handleVisibilityToggle = async (id: string, currentVisibility: boolean) => {
     try {
-      const updatedPlot = await api.patch(`/admin/plots/${id}/visibility`, 
-        { is_visible: !currentVisibility },
-        { isAdmin: true }
-      )
+      const response = await fetch(`https://altailands.ru/api/admin/plots/${id}/visibility`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ is_visible: !currentVisibility }),
+      })
+      if (!response.ok) {
+        throw new Error('Failed to update visibility')
+      }
+      const updatedPlot = await response.json()
       
       // Обновляем только измененный участок в состоянии
       setPlots(plots.map(plot => 

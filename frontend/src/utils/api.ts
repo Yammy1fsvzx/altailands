@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://altailands.ru/api';  // Используем конфигурацию из config/api.ts
+const API_BASE_URL = 'https://altailands.ru/api';
 
 interface FetchOptions extends RequestInit {
   isAdmin?: boolean

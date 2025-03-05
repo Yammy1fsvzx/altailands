@@ -115,7 +115,8 @@ export default function CatalogPage() {
   // Добавляем функцию для загрузки регионов
   const fetchRegions = async () => {
     try {
-      const data = await api.get('/plots/regions')
+      const response = await fetch('https://altailands.ru/api/plots/regions')
+      const data = await response.json()
       setRegions(data)
     } catch (error) {
       console.error('Error fetching regions:', error)
@@ -125,7 +126,8 @@ export default function CatalogPage() {
   // Добавляем функцию для загрузки локаций
   const fetchLocations = async () => {
     try {
-      const data = await api.get('/plots/locations')
+      const response = await fetch('https://altailands.ru/api/plots/locations')
+      const data = await response.json()
       setLocations(data)
     } catch (error) {
       console.error('Error fetching locations:', error)
@@ -135,7 +137,8 @@ export default function CatalogPage() {
   // Добавим функцию для загрузки категорий
   const fetchCategories = async () => {
     try {
-      const data = await api.get('/plots/categories')
+      const response = await fetch('https://altailands.ru/api/plots/categories')
+      const data = await response.json()
       setCategories(data)
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -177,10 +180,15 @@ export default function CatalogPage() {
         params.append('terrain', JSON.stringify(terrain))
       }
 
-      // Используем api утилиту вместо fetch
+      // Используем fetch вместо api утилиты
+      const [plotsResponse, countResponse] = await Promise.all([
+        fetch(`https://altailands.ru/api/plots?${params}`),
+        fetch(`https://altailands.ru/api/plots/count?${params}`)
+      ])
+      
       const [plotsData, countData] = await Promise.all([
-        api.get(`/plots?${params}`),
-        api.get(`/plots/count?${params}`)
+        plotsResponse.json(),
+        countResponse.json()
       ])
       
       // Форматируем данные
@@ -579,75 +587,6 @@ export default function CatalogPage() {
                       onChange={(e) => handleFilterChange('areaMax', e.target.value)}
                       className="form-input w-1/2 text-sm sm:text-base rounded-lg border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 transition-colors"
                     />
-                  </div>
-                </div>
-
-                {/* Особенности местности */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Особенности местности
-                  </label>
-                  <div className="space-y-2">
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="isNearRiver"
-                        checked={filters.isNearRiver}
-                        onChange={(e) => handleFilterChange('isNearRiver', e.target.checked)}
-                        className="form-checkbox h-4 w-4 text-primary focus:ring-primary"
-                      />
-                      <label htmlFor="isNearRiver" className="ml-2 block text-sm text-gray-700">
-                        У реки
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="isNearLake"
-                        checked={filters.isNearLake}
-                        onChange={(e) => handleFilterChange('isNearLake', e.target.checked)}
-                        className="form-checkbox h-4 w-4 text-primary focus:ring-primary"
-                      />
-                      <label htmlFor="isNearLake" className="ml-2 block text-sm text-gray-700">
-                        У озера
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="isNearForest"
-                        checked={filters.isNearForest}
-                        onChange={(e) => handleFilterChange('isNearForest', e.target.checked)}
-                        className="form-checkbox h-4 w-4 text-primary focus:ring-primary"
-                      />
-                      <label htmlFor="isNearForest" className="ml-2 block text-sm text-gray-700">
-                        У леса
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="isNearMountains"
-                        checked={filters.isNearMountains}
-                        onChange={(e) => handleFilterChange('isNearMountains', e.target.checked)}
-                        className="form-checkbox h-4 w-4 text-primary focus:ring-primary"
-                      />
-                      <label htmlFor="isNearMountains" className="ml-2 block text-sm text-gray-700">
-                        У гор
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="hasViewOnMountains"
-                        checked={filters.hasViewOnMountains}
-                        onChange={(e) => handleFilterChange('hasViewOnMountains', e.target.checked)}
-                        className="form-checkbox h-4 w-4 text-primary focus:ring-primary"
-                      />
-                      <label htmlFor="hasViewOnMountains" className="ml-2 block text-sm text-gray-700">
-                        Вид на горы
-                      </label>
-                    </div>
                   </div>
                 </div>
 

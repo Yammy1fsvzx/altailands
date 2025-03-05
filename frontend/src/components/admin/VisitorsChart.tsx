@@ -53,7 +53,12 @@ export default function VisitorsChart() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await api.get('/admin/stats/visitors', { isAdmin: true })
+        const response = await fetch('https://altailands.ru/api/admin/stats/visitors', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('admin_token')}`,
+          },
+        })
+        const data = await response.json()
         setChartData(data)
       } catch (error) {
         console.error('Ошибка при загрузке статистики:', error)

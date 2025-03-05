@@ -28,7 +28,14 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
     try {
       // Проверяем валидность токена
-      await api.get('/admin/me', { isAdmin: true })
+      const response = await fetch('https://altailands.ru/api/admin/me', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Unauthorized')
+      }
       setSessionToken(token)
       setIsAuthenticated(true)
     } catch (error) {
@@ -45,9 +52,19 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await api.post('/admin/login', { username, password })
-      localStorage.setItem('adminToken', response.session_token)
-      setSessionToken(response.session_token)
+      const response = await fetch('https://altailands.ru/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
+      if (!response.ok) {
+        throw new Error('Failed to login')
+      }
+      const data = await response.json()
+      localStorage.setItem('adminToken', data.session_token)
+      setSessionToken(data.session_token)
       setIsAuthenticated(true)
     } catch (error) {
       console.error('Ошибка при входе:', error)
